@@ -5,11 +5,12 @@ class NewRelicAccount():
     """ Interface to New Relic REST API """
 
     MAX_PAGES = 2
+    MAX_RETRIES = 3
 
     def __init__(self, rest_api_key):
         self.rest_api_key = rest_api_key
 
-    def get(self, endpoint, retry=3):
+    def get(self, endpoint, retry=MAX_RETRIES):
         headers = {'X-API-Key': self.rest_api_key}
         success = False
         result = {}
@@ -24,7 +25,7 @@ class NewRelicAccount():
         else:
             return [], False
 
-    def getApplications(self, max_pages=MAX_PAGES, retry=3):
+    def getApplications(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -49,7 +50,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getApplicationInstances(self, application_id, max_pages=MAX_PAGES, retry=3):
+    def getApplicationInstances(self, application_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -74,7 +75,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getApplicationDeployments(self, application_id, max_pages=MAX_PAGES, retry=3):
+    def getApplicationDeployments(self, application_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -99,7 +100,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getMobileApplications(self, retry=3):
+    def getMobileApplications(self, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         is_successful = False
@@ -119,7 +120,7 @@ class NewRelicAccount():
             ok = False
         return applications, ok
 
-    def getBrowserApplications(self, retry=3):
+    def getBrowserApplications(self, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         is_successful = False
@@ -139,7 +140,7 @@ class NewRelicAccount():
             ok = False
         return applications, ok
 
-    def getKeyTransactions(self, retry=3):
+    def getKeyTransactions(self, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         is_successful = False
@@ -159,7 +160,7 @@ class NewRelicAccount():
             ok = False
         return applications, ok
 
-    def getServers(self, max_pages=MAX_PAGES, retry=3):
+    def getServers(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -184,7 +185,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getUsers(self, max_pages=MAX_PAGES, retry=3):
+    def getUsers(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -209,7 +210,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsEvents(self, retry=3):
+    def getAlertsEvents(self, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         is_successful = False
@@ -229,7 +230,7 @@ class NewRelicAccount():
             ok = False
         return applications, ok
 
-    def getAlertsPolicies(self, max_pages=MAX_PAGES, retry=3):
+    def getAlertsPolicies(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -254,7 +255,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsConditions(self, policy_id, max_pages=MAX_PAGES, retry=3):
+    def getAlertsConditions(self, policy_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1, 'policy_id':   policy_id}
@@ -279,7 +280,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsPluginsConditions(self, policy_id, max_pages=MAX_PAGES, retry=3):
+    def getAlertsPluginsConditions(self, policy_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1, 'policy_id':   policy_id}
@@ -304,7 +305,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsExternalServiceConditions(self, policy_id, max_pages=MAX_PAGES, retry=3):
+    def getAlertsExternalServiceConditions(self, policy_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1, 'policy_id':   policy_id}
@@ -329,7 +330,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsSyntheticsConditions(self, policy_id, max_pages=MAX_PAGES, retry=3):
+    def getAlertsSyntheticsConditions(self, policy_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1, 'policy_id':   policy_id}
@@ -354,7 +355,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsNrqlConditions(self, policy_id, max_pages=MAX_PAGES, retry=3):
+    def getAlertsNrqlConditions(self, policy_id, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1, 'policy_id':   policy_id}
@@ -379,7 +380,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsChannels(self, max_pages=MAX_PAGES, retry=3):
+    def getAlertsChannels(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -404,7 +405,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsViolations(self, max_pages=MAX_PAGES, retry=3):
+    def getAlertsViolations(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -429,7 +430,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsIncidents(self, max_pages=MAX_PAGES, retry=3):
+    def getAlertsIncidents(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -454,7 +455,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getAlertsEntityConditions(self, entity_id, entity_type, retry=3):
+    def getAlertsEntityConditions(self, entity_id, entity_type, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'entity_type': entity_type}
@@ -475,7 +476,7 @@ class NewRelicAccount():
             ok = False
         return applications, ok
 
-    def getPlugins(self, max_pages=MAX_PAGES, retry=3):
+    def getPlugins(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -500,7 +501,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getComponents(self, max_pages=MAX_PAGES, retry=3):
+    def getComponents(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
@@ -525,7 +526,7 @@ class NewRelicAccount():
             is_last_page = (len(r_json) == 0)
         return applications, ok
 
-    def getLabels(self, max_pages=MAX_PAGES, retry=3):
+    def getLabels(self, max_pages=MAX_PAGES, retry=MAX_RETRIES):
         applications, ok = [], True
         headers = {'X-API-Key': self.rest_api_key}
         params = {'page': 1}
