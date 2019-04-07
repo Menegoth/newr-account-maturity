@@ -110,8 +110,6 @@ class NewRelicRestAPI():
         """ returns a list of entities from paginating endpoints """
 
         result, ok = [], True
-        last_page = False
-        params['page'] = 1
         set_name = NewRelicRestAPI.ENDPOINTS[endpoint]['set_name']
         url = NewRelicRestAPI.ENDPOINTS[endpoint]['url']
         if '{}' in url:
@@ -119,6 +117,9 @@ class NewRelicRestAPI():
                 ok = False
             else:
                 url = url.format(entity)
+
+        last_page = False
+        params['page'] = 1
         while ok and not last_page and params['page'] <= max_pages:
             succeeded = False
             count_retries = 0
@@ -157,6 +158,7 @@ class NewRelicRestAPI():
                 ok = False
             else:
                 url = url.format(entity)
+
         if ok:
             count_retries = 0
             succeeded = False
@@ -210,11 +212,7 @@ class NewRelicRestAPI():
         return result, ok
 
 if __name__ == "__main__":
-    print('starting...')
-
-    API_KEY = ''
-    api = NewRelicRestAPI(API_KEY)
-    ok = False
+    api, ok = NewRelicRestAPI('API_KEY'), False
 
     result, ok = api.get_set('applications')
     if ok:
