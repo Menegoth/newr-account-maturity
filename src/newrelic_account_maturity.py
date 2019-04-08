@@ -24,6 +24,10 @@ class NewRelicAccountMaturity():
         'apps_mobile_reporting',
         'apps_browser_total',
         'users_total',
+        'alerts_policies_per_entity',
+        'alerts_policies_per_policy',
+        'alerts_policies_per_condition',
+        'alerts_policies_total',
         'get_metadata_duration'
     ]
 
@@ -69,8 +73,19 @@ class NewRelicAccountMaturity():
 
     def get_browser_metrics(self):
         browser_applications, _ = self.__account.browser_applications
-        for browser_application in browser_applications:
-            self._metrics['apps_browser_total'] += 1
+        self._metrics['apps_browser_total'] = len(browser_applications)
+
+    def get_alerts_policies_metrics(self):
+        alerts_policies, _ = self.__account.alerts_policies
+        for alerts_policy in alerts_policies:
+            self._metrics['alerts_policies_total'] += 1
+            incident_preference = alerts_policy['data']['incident_preference']
+            if incident_preference == 'PER_POLICY':
+                self._metrics['alerts_policies_per_policy'] += 1
+            elif incident_preference == 'PER_CONDITION':
+                self._metrics['alerts_policies_per_condition'] += 1
+            elif incident_preference == 'PER_ENTITY':
+                self._metrics['alerts_policies_per_entity'] += 1
 
     def metrics():
         doc = "The metrics dictionary."
@@ -81,6 +96,7 @@ class NewRelicAccountMaturity():
             self.get_apm_metrics()
             self.get_browser_metrics()
             self.get_mobile_metrics()
+            self.get_alerts_policies_metrics()
             elapsed_time = round(time.time() - start_time, 2)
             self._metrics['get_metadata_duration'] = elapsed_time
             return self._metrics
