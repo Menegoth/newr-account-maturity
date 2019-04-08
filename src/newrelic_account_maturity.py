@@ -45,8 +45,7 @@ class NewRelicAccountMaturity():
 
     def get_users_metrics(self):
         users, _ = self.__account.users
-        for user in users:
-            self._metrics['users_total'] += 1
+        self._metrics['users_total'] = len(users)
 
     def get_apm_metrics(self):
         apm_applications, _ = self.__account.apm_applications
