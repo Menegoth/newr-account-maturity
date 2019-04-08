@@ -4,7 +4,7 @@ import json
 class NewRelicRestAPI():
     """ Facade to New Relic REST API LIST endpoints """
 
-    MAX_PAGES = 100
+    MAX_PAGES = 1000
     MAX_RETRIES = 5
 
     ENDPOINTS = {
