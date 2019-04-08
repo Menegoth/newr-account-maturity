@@ -56,7 +56,7 @@ class NewRelicRestAPI():
     'labels': {
         'url': 'https://api.newrelic.com/v2/labels.json',
         'paginates': True,
-        'set_name': 'plugins_conditions'
+        'set_name': 'labels'
     },
     'alerts_events': {
         'url': 'https://api.newrelic.com/v2/alerts_events.json',
@@ -81,22 +81,27 @@ class NewRelicRestAPI():
     'alerts_plugins_conditions': {
         'url': 'https://api.newrelic.com/v2/alerts_plugins_conditions.json',
         'paginates': True,
-        'set_name': 'plugins_conditions'
+        'set_name': 'conditions'
     },
     'external_service_conditions': {
         'url': 'https://api.newrelic.com/v2/alerts_external_service_conditions.json',
         'paginates': True,
-        'set_name': 'external_service_conditions'
+        'set_name': 'conditions'
     },
     'alerts_synthetics_conditions': {
         'url': 'https://api.newrelic.com/v2/alerts_synthetics_conditions.json',
         'paginates': True,
-        'set_name': 'synthetics_conditions'
+        'set_name': 'conditions'
     },
     'alerts_nrql_conditions': {
         'url': 'https://api.newrelic.com/v2/alerts_nrql_conditions.json',
         'paginates': True,
-        'set_name': 'nrql_conditions'
+        'set_name': 'conditions'
+    },
+    'alerts_entity_conditions': {
+        'url': 'https://api.newrelic.com/v2/alerts_entity_conditions/{}.json',
+        'paginates': False,
+        'set_name': 'conditions'
     }
     }
 
@@ -141,6 +146,7 @@ class NewRelicRestAPI():
             else:
                 result, ok = [], False
             params['page'] += 1
+
         del params['page']
         return result, ok
 
@@ -177,6 +183,7 @@ class NewRelicRestAPI():
                 result = response.json()[set_name]
             else:
                 ok = False
+
         return result, ok
 
     def get_set(

@@ -19,7 +19,23 @@ class NewRelicAccount():
         else:
             return [], False
 
-    def applications():
+    def users():
+        doc = "The users dictionary."
+        def fget(self):
+            result, ok = self.__get_cache('users')
+            if not ok:
+                result, ok = self.__rest_api.get_set('users')
+                if ok:
+                    result = [{'id':item['id'], 'data':item} for item in result]
+                    self.__cache.append({
+                        'set_name': 'users',
+                        'data': result,
+                    })
+            return result, ok
+        return locals()
+    users = property(**users())
+
+    def apm_applications():
         doc = "The applications dictionary."
         def fget(self):
             result, ok = self.__get_cache('applications')
@@ -33,7 +49,7 @@ class NewRelicAccount():
                     })
             return result, ok
         return locals()
-    applications = property(**applications())
+    apm_applications = property(**apm_applications())
 
     def mobile_applications():
         doc = "The mobile applications dictionary."
@@ -67,16 +83,32 @@ class NewRelicAccount():
         return locals()
     browser_applications = property(**browser_applications())
 
+    def alerts_apm_applications():
+        doc = "The browser applications dictionary."
+        def fget(self):
+            result, ok = self.__get_cache('alerts_apm_applications')
+            if not ok:
+                result, ok = self.__rest_api.get_set('alerts_apm_applications')
+                if ok:
+                    result = [{'id':item['id'], 'data':item} for item in result]
+                    self.__cache.append({
+                        'set_name': 'alerts_apm_applications',
+                        'data': result,
+                    })
+            return result, ok
+        return locals()
+    alerts_apm_applications = property(**alerts_apm_applications())
+
 if __name__ == "__main__":
     account = NewRelicAccount()
 
-    result, ok = account.applications
-    if ok:
-        print(json.dumps(result, sort_keys=True, indent=4))
+    #result, ok = account.applications
+    #if ok:
+    #    print(json.dumps(result, sort_keys=True, indent=4))
 
-    result, ok = account.mobile_applications
-    if ok:
-        print(json.dumps(result, sort_keys=True, indent=4))
+    #result, ok = account.mobile_applications
+    #if ok:
+    #    print(json.dumps(result, sort_keys=True, indent=4))
 
     result, ok = account.browser_applications
     if ok:
