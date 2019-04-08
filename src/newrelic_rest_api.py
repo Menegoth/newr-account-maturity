@@ -1,5 +1,6 @@
-import requests
 import json
+import os
+import requests
 
 class NewRelicRestAPI():
     """ Facade to New Relic REST API LIST endpoints """
@@ -105,7 +106,9 @@ class NewRelicRestAPI():
     }
     }
 
-    def __init__(self, rest_api_key):
+    def __init__(self, rest_api_key=''):
+        if rest_api_key == '':
+            rest_api_key = os.getenv('NEW_RELIC_REST_API_KEY', '')
         self.__headers = {'X-API-Key': rest_api_key}
 
     def __get_paging_set(

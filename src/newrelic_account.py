@@ -1,5 +1,3 @@
-# a = [{'id':e, 'data':e} for e in a]
-import os
 import json
 
 from newrelic_rest_api import NewRelicRestAPI
@@ -7,8 +5,6 @@ from newrelic_rest_api import NewRelicRestAPI
 class NewRelicAccount():
 
     def __init__(self, rest_api_key=''):
-        if rest_api_key == '':
-            rest_api_key = os.getenv('NEW_RELIC_REST_API_KEY', '')
         self.__rest_api = NewRelicRestAPI(rest_api_key)
         self.__cache = []
 
@@ -83,33 +79,24 @@ class NewRelicAccount():
         return locals()
     browser_applications = property(**browser_applications())
 
-    def alerts_apm_applications():
-        doc = "The browser applications dictionary."
+    def alerts_policies():
+        doc = "The alerts policies dictionary."
         def fget(self):
-            result, ok = self.__get_cache('alerts_apm_applications')
+            result, ok = self.__get_cache('alerts_policies')
             if not ok:
-                result, ok = self.__rest_api.get_set('alerts_apm_applications')
+                result, ok = self.__rest_api.get_set('alerts_policies')
                 if ok:
                     result = [{'id':item['id'], 'data':item} for item in result]
                     self.__cache.append({
-                        'set_name': 'alerts_apm_applications',
+                        'set_name': 'alerts_policies',
                         'data': result,
                     })
             return result, ok
         return locals()
-    alerts_apm_applications = property(**alerts_apm_applications())
+    alerts_policies = property(**alerts_policies())
 
 if __name__ == "__main__":
     account = NewRelicAccount()
-
-    #result, ok = account.applications
-    #if ok:
-    #    print(json.dumps(result, sort_keys=True, indent=4))
-
-    #result, ok = account.mobile_applications
-    #if ok:
-    #    print(json.dumps(result, sort_keys=True, indent=4))
-
-    result, ok = account.browser_applications
+    result, ok = account.applications
     if ok:
         print(json.dumps(result, sort_keys=True, indent=4))
